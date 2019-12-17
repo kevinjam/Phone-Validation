@@ -52,6 +52,7 @@ public class ValidationServices {
     }
 
 
+
     private String getRedisKey(final String validateID) {
         return REDIS_PREFIX_VALIDATION + REDIS_KEY_SEPARATOR + validateID;
     }

@@ -17,6 +17,7 @@ public class ValidationController {
     private static final String HOME  = "/";
     private static final String PHONENUMBRT  = "/validate_number";
     private static final String GET_PHONE_NUMBER  = "/numbers_to_validate";
+    private static final String DELETED_PHONE_NUMBER  = "/deleted/{id}";
     private static final String GET_VALIDATED_NUMBER  = "/validated_numbers/{id}";
     private static final String VALIDATE_TBL  = "validate_tbl";
 
@@ -44,6 +45,7 @@ public class ValidationController {
         System.out.println("USERS " + users);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
 
     @RequestMapping(value = PHONENUMBRT, method = RequestMethod.POST)
     public ResponseEntity postPhoneNumber(@RequestBody ValidateModel validate){
@@ -85,6 +87,8 @@ public class ValidationController {
         response.setStatusCode(200);
         response.setMessage("Success");
         System.out.println("List returned " + numberList);
+        //loop into
+        validationServices.delete(validateModel.getId());
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
             }
 
@@ -109,7 +113,14 @@ public class ValidationController {
     }
 
 
-    //delete cache
+    @DeleteMapping(value = DELETED_PHONE_NUMBER)
+    public ResponseEntity<Void> deleteNumber(@PathVariable("id") final String userId) {
+        response.setResult(true);
+        response.setStatusCode(200);
+        response.setMessage("Successful Deleted");
+        validationServices.delete(userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
 
 
